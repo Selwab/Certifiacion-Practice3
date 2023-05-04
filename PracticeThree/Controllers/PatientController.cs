@@ -28,4 +28,11 @@ public class PatientController : ControllerBase
     {
         return _patientManager.Create(patientToCreate.Name, patientToCreate.LastName, patientToCreate.CI);
     }
+
+    [HttpGet]
+    [Route("{ci}")]
+    public Patient GetByCi([FromRoute] int ci)
+    {
+        return _patientManager.GetById(ci);
+    }
 }
