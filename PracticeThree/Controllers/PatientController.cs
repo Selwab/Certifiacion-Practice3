@@ -22,4 +22,10 @@ public class PatientController : ControllerBase
     {
         return _patientManager.GetAll();
     }
+
+    [HttpPost] 
+    public Patient Post([FromBody] Patient patientToCreate)
+    {
+        return _patientManager.Create(patientToCreate.Name, patientToCreate.LastName, patientToCreate.CI);
+    }
 }
