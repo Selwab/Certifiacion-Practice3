@@ -55,9 +55,7 @@ public class PatientManager
         }
         return patientFound;
     }
-
-    /*
-    public Patient Update(int ci)
+    public Patient Update(int ci, string name, string lastName)
     {
         if(ci < 0)
         {
@@ -71,17 +69,11 @@ public class PatientManager
             throw new Exception("No se encontró ningún paciente con el CI: " + ci);
         }
 
-        Patient createdPatient = new Patient()
-        {
-            Name = name,
-            LastName = lastName,
-            CI = ci,
-            BloodType = bloodType
-        };
-
+        patientFound.Name = name;
+        patientFound.LastName = lastName;
+        
         return patientFound;
     }
-    */
 
     public Patient Delete(int ci)
     {
