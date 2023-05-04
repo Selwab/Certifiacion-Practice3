@@ -36,6 +36,13 @@ public class PatientController : ControllerBase
         return _patientManager.GetById(ci);
     }
 
+    [HttpPut]
+    [Route("{ci}")]
+    public Patient Put([FromRoute] int ci, [FromBody]Patient patientToUpdate)
+    {
+        return _patientManager.Update(ci, patientToUpdate.Name, patientToUpdate.LastName);
+    }
+
     [HttpDelete]
     [Route("{ci}")]
     public Patient Delete([FromRoute] int ci)
