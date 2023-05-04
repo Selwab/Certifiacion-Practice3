@@ -39,7 +39,7 @@ public class PatientManager
         return bloodGroups[index];
     }
 
-     public Patient GetById(int ci)
+    public Patient GetById(int ci)
     {
         if(ci < 0)
         {
@@ -54,5 +54,40 @@ public class PatientManager
             throw new Exception("No se encontró ningún paciente con el CI: " + ci);
         }
         return patientFound;
+    }
+
+    /*
+    public Patient Update(int ci)
+    {
+        if(ci < 0)
+        {
+            throw new Exception("CI invalido");
+        }
+        Patient patientFound;
+        patientFound = _patients.Find(patient => patient.CI == ci);
+        
+        if(patientFound == null)
+        {
+            throw new Exception("No se encontró ningún paciente con el CI: " + ci);
+        }
+
+        Patient createdPatient = new Patient()
+        {
+            Name = name,
+            LastName = lastName,
+            CI = ci,
+            BloodType = bloodType
+        };
+
+        return patientFound;
+    }
+    */
+
+    public Patient Delete(int ci)
+    {
+        int patientToDeleteIndex = _patients.FindIndex(patient => patient.CI == ci);
+        Patient patientToDelete = _patients[patientToDeleteIndex];
+        _patients.RemoveAt(patientToDeleteIndex);
+        return patientToDelete;
     }
 }
