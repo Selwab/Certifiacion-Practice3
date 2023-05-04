@@ -1,5 +1,7 @@
 using Microsoft.OpenApi.Models;
 using Serilog;
+using UPB.CoreLogic.Managers;
+using UPB.CoreLogic.Models;
 
 //create the logger and setup your sinks, filters and properties
 Log.Logger = new LoggerConfiguration()
@@ -13,7 +15,8 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Host.UseSerilog();
 
 // Add services to the container.
-
+//Singleton vs Transient vs Scoped
+builder.Services.AddSingleton<PatientManager>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -45,10 +48,10 @@ app.UseSwaggerUI();
 
 // Configure the HTTP request pipeline.
 
-app.UseHttpsRedirection();
-
-app.UseAuthorization();
+//app.UseHttpsRedirection();
+//app.UseAuthorization();
 
 app.MapControllers();
 
+//Run app
 app.Run();
