@@ -35,4 +35,11 @@ public class PatientController : ControllerBase
     {
         return _patientManager.GetById(ci);
     }
+
+    [HttpDelete]
+    [Route("{ci}")]
+    public Patient Delete([FromRoute] int ci)
+    {
+        return _patientManager.Delete(ci);
+    }
 }
