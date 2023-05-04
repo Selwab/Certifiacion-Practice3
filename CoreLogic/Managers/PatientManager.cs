@@ -10,4 +10,9 @@ public class PatientManager
     {
         _patients = new List<Patient>();
     }
+
+    public List<Patient> GetAll()
+    {
+        return _patients;
+    }
 }
