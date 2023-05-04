@@ -5,7 +5,7 @@ using UPB.CoreLogic.Models;
 namespace UPB.PracticeThree.Controllers;
 
 [ApiController] //Attributes
-[Route("[controller]")]
+[Route("patient")]
 
 public class PatientController : ControllerBase
 {
@@ -15,5 +15,11 @@ public class PatientController : ControllerBase
     public PatientController(PatientManager patientManager)
     {
         _patientManager = patientManager;
+    }
+
+    [HttpGet]
+    public List<Patient> Get()
+    {
+        return _patientManager.GetAll();
     }
 }
