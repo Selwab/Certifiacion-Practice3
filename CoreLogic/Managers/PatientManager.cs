@@ -71,15 +71,27 @@ public class PatientManager
 
         patientFound.Name = name;
         patientFound.LastName = lastName;
-        
+
         return patientFound;
     }
 
     public Patient Delete(int ci)
     {
+        if (ci < 0)
+        {
+            throw new Exception("CI invalido");
+        }
+
         int patientToDeleteIndex = _patients.FindIndex(patient => patient.CI == ci);
+        
+        if(patientToDeleteIndex <0 || patientToDeleteIndex > _patients.Count)
+        {
+            throw new Exception("No se encontró ningún paciente con el CI: " + ci);
+        }
+
         Patient patientToDelete = _patients[patientToDeleteIndex];
         _patients.RemoveAt(patientToDeleteIndex);
+
         return patientToDelete;
     }
 }
