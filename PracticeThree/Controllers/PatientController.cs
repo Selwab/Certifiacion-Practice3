@@ -2,8 +2,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace UPB.PracticeThree.Controllers;
 
-[ApiController]
+[ApiController] //Attributes
 [Route("[controller]")]
+
 public class PatientController : ControllerBase
 {
     
