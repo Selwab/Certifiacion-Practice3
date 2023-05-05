@@ -5,10 +5,12 @@ namespace UPB.CoreLogic.Managers;
 public class PatientManager
 {
     private List<Patient> _patients;
+    private string _filePath;
 
-    public PatientManager()
+    public PatientManager(string filePath)
     {
         _patients = new List<Patient>();
+        _filePath = filePath;
     }
 
     public List<Patient> GetAll()
