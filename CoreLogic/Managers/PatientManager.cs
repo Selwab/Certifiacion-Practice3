@@ -45,7 +45,6 @@ public class PatientManager
     public Patient Create(string name, string lastName, int ci)
     {
         string bloodType = GetBloodType();
-
         Patient createdPatient = new Patient()
         {
             Name = name,
@@ -53,7 +52,13 @@ public class PatientManager
             CI = ci,
             BloodType = bloodType
         };
-        _patients.Add(createdPatient);
+
+        using (StreamWriter writer = new StreamWriter(_filePath, true))
+        {
+            string patientData = string.Join(",", name, lastName, ci, bloodType);
+            writer.WriteLine(patientData);
+        }
+
         return createdPatient;
     }
 
