@@ -17,7 +17,7 @@ if(builder.Environment.IsEnvironment("DEV"))
 {
     Log.Logger = new LoggerConfiguration()
         .WriteTo.Console(outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (Application Running) {NewLine}{Exception}")
-        //.WriteTo.File("logDEV.log", outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (Application Running) {NewLine}{Exception}", rollingInterval: RollingInterval.Day)
+        .WriteTo.File("logDEV.log", outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (Application Running) {NewLine}{Exception}", rollingInterval: RollingInterval.Day)
         .CreateBootstrapLogger();
 }
 
