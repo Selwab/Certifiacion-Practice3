@@ -72,19 +72,43 @@ public class PatientManager
 
     public Patient GetById(int ci)
     {
+        Patient patientFounded = null; 
+
         if(ci < 0)
         {
             throw new Exception("CI invalido");
         }
 
-        Patient patientFound;
-        patientFound = _patients.Find(patient => patient.CI == ci);
+        using (StreamReader reader = new StreamReader(_filePath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] patientData = line.Split(',');
+                string name = patientData[0];
+                string lastName = patientData[1];
+                int patientCI = Int32.Parse(patientData[2]);
+                string bloodType = patientData[3];
 
-        if(patientFound == null)
+                if(ci == patientCI)
+                {
+                    patientFounded = new Patient
+                    {
+                        Name = name,
+                        LastName = lastName,
+                        CI = ci,
+                        BloodType = bloodType
+                    };
+                    break;
+                }
+            }
+        }
+
+        if(patientFounded == null)
         {
             throw new Exception("No se encontró ningún paciente con el CI: " + ci);
         }
-        return patientFound;
+        return patientFounded;
     }
     public Patient Update(int ci, string name, string lastName)
     {
