@@ -17,7 +17,7 @@ builder.Host.UseSerilog();
 
 // Add services to the container.
 //Singleton vs Transient vs Scoped
-builder.Services.AddSingleton<PatientManager>();
+//builder.Services.AddSingleton<PatientManager>();
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -30,8 +30,10 @@ var configurationBuilder = new ConfigurationBuilder()
         .AddEnvironmentVariables();
 
 IConfiguration Configuration = configurationBuilder.Build();
-
 string siteTitle = Configuration.GetSection("Title").Value;
+string filePath = Configuration.GetSection("FilePath").Value;
+
+builder.Services.AddTransient(_=> new PatientManager(filePath));
 
 builder.Services.AddSwaggerGen(options =>
 {
