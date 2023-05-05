@@ -5,6 +5,7 @@ using UPB.CoreLogic.Models;
 using UPB.PracticeThree.Middlewares;
 
 //create the logger and setup your sinks, filters and properties
+
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console(outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (Application Running) {NewLine}{Exception}")
     .CreateBootstrapLogger();
@@ -12,14 +13,29 @@ Log.Logger = new LoggerConfiguration()
 //Servidor
 var builder = WebApplication.CreateBuilder(args);
 
+if(builder.Environment.IsEnvironment("DEV"))
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.Console(outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (Application Running) {NewLine}{Exception}")
+        //.WriteTo.File("logDEV.log", outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (Application Running) {NewLine}{Exception}", rollingInterval: RollingInterval.Day)
+        .CreateBootstrapLogger();
+}
+
+if(builder.Environment.IsEnvironment("QA"))
+{
+    Log.Logger = new LoggerConfiguration()
+        .WriteTo.Console(outputTemplate:"[{Timestamp:HH:mm:ss} {Level:u3}] {Message:lj} (Application Running) {NewLine}{Exception}")
+        .CreateBootstrapLogger();
+}
+
 //after create the builder - UseSerilog
 builder.Host.UseSerilog();
 
 // Add services to the container.
 //Singleton vs Transient vs Scoped
-//builder.Services.AddSingleton<PatientManager>();
+
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 
 //Configure application
