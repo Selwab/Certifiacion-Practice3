@@ -132,20 +132,45 @@ public class PatientManager
 
     public Patient Delete(int ci)
     {
+        Patient patientToDelete = null; 
+
         if (ci < 0)
         {
             throw new Exception("CI invalido");
         }
 
-        int patientToDeleteIndex = _patients.FindIndex(patient => patient.CI == ci);
-        
-        if(patientToDeleteIndex <0 || patientToDeleteIndex > _patients.Count)
+        List<string> fileContent = File.ReadAllLines(_filePath).ToList();
+
+        for (int i = 0; i < fileContent.Count; i++)
+        {
+            string[] patientData = fileContent[i].Split(',');
+            string name = patientData[0];
+            string lastName = patientData[1];
+            int patientCI = Int32.Parse(patientData[2]);
+            string bloodType = patientData[3];
+
+            if(ci == patientCI)
+            {
+                patientToDelete = new Patient
+                {
+                    Name = name,
+                    LastName = lastName,
+                    CI = ci,
+                    BloodType = bloodType
+                };
+
+                fileContent.RemoveAt(i);
+
+                File.WriteAllLines(_filePath, fileContent);
+
+                break;
+            }
+        }
+
+        if(patientToDelete == null)
         {
             throw new Exception("No se encontró ningún paciente con el CI: " + ci);
         }
-
-        Patient patientToDelete = _patients[patientToDeleteIndex];
-        _patients.RemoveAt(patientToDeleteIndex);
 
         return patientToDelete;
     }
