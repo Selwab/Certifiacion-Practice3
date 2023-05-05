@@ -112,22 +112,45 @@ public class PatientManager
     }
     public Patient Update(int ci, string name, string lastName)
     {
+        Patient patientFounded = null; 
+
         if(ci < 0)
         {
             throw new Exception("CI invalido");
         }
-        Patient patientFound;
-        patientFound = _patients.Find(patient => patient.CI == ci);
+
+        string[] fileContent = File.ReadAllLines(_filePath);
+
+        for (int i = 0; i < fileContent.Length; i++)
+        {
+            string[] patientData = fileContent[i].Split(',');
+            int patientCI = Int32.Parse(patientData[2]);
+            string bloodType = patientData[3];
+
+            //Console.WriteLine("Patient CI: " + patientCI);
+            
+            if(ci == patientCI)
+            {
+                fileContent[i] = $"{name},{lastName},{ci},{bloodType}";
+
+                patientFounded = new Patient
+                {
+                    Name = name,
+                    LastName = lastName,
+                    CI = ci,
+                    BloodType = bloodType
+                };
+                break;
+            }
+        }
         
-        if(patientFound == null)
+        if(patientFounded == null)
         {
             throw new Exception("No se encontró ningún paciente con el CI: " + ci);
         }
 
-        patientFound.Name = name;
-        patientFound.LastName = lastName;
-
-        return patientFound;
+        File.WriteAllLines(_filePath, fileContent);
+        return patientFounded;
     }
 
     public Patient Delete(int ci)
