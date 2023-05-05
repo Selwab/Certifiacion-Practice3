@@ -44,6 +44,26 @@ public class PatientManager
 
     public Patient Create(string name, string lastName, int ci)
     {
+        if(ci < 0)
+        {
+            throw new Exception("CI invalido");
+        }
+
+        using (StreamReader reader = new StreamReader(_filePath))
+        {
+            string line;
+            while ((line = reader.ReadLine()) != null)
+            {
+                string[] patientData = line.Split(',');
+                int patientCI = Int32.Parse(patientData[2]);
+
+                if(ci == patientCI)
+                {
+                    throw new Exception("El CI " + ci + " ya existe");
+                }
+            }
+        }
+
         string bloodType = GetBloodType();
         Patient createdPatient = new Patient()
         {
